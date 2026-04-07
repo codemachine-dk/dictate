@@ -23,7 +23,7 @@ export class AudioRecorder {
     this.mediaRecorder.start();
   }
 
-  async stop(vault: Vault, note: TFile): Promise<TFile> {
+  async stop(vault: Vault, note: TFile, folder: string): Promise<TFile> {
     return new Promise((resolve, reject) => {
       if (!this.mediaRecorder || this.mediaRecorder.state === 'inactive') {
         reject(new Error('No active recording'));
@@ -34,7 +34,11 @@ export class AudioRecorder {
         const ext = this.getFileExtension();
         const blob = new Blob(this.chunks, { type: this.mediaRecorder!.mimeType });
         blob.arrayBuffer().then(async (arrayBuffer) => {
-          const audioFileName = note.basename + '.' + ext;
+          const folderPath = folder.replace(/\/+$/, '');
+          if (!vault.getAbstractFileByPath(folderPath)) {
+            await vault.createFolder(folderPath);
+          }
+          const audioFileName = `${folderPath}/${note.basename}.${ext}`;
           const audioFile = await vault.createBinary(audioFileName, arrayBuffer);
 
           const embed = `![[${audioFile.name}]]\n`;

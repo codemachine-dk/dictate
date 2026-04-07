@@ -1,5 +1,5 @@
 import { Notice, Plugin, setIcon, TFile } from 'obsidian';
-import { DEFAULT_SETTINGS, Vote4DickTaidPluginSettings, SampleSettingTab } from "./settings";
+import { DEFAULT_SETTINGS, Vote4DickTaidPluginSettings, Vote4DickTaidSettingTab } from "./settings";
 import { AudioRecorder } from "./recorder";
 
 export default class Vote4DickTaidPlugin extends Plugin {
@@ -31,7 +31,7 @@ export default class Vote4DickTaidPlugin extends Plugin {
 			},
 		});
 
-		this.addSettingTab(new SampleSettingTab(this.app, this));
+		this.addSettingTab(new Vote4DickTaidSettingTab(this.app, this));
 	}
 
 	async toggleDictation() {
@@ -66,7 +66,7 @@ export default class Vote4DickTaidPlugin extends Plugin {
 			return;
 		}
 		try {
-			await this.recorder.stop(this.app.vault, this.activeNote);
+			await this.recorder.stop(this.app.vault, this.activeNote, this.settings.recordingFolder);
 			new Notice('Recording saved');
 		} catch (err) {
 			new Notice('Failed to save recording: ' + (err as Error).message);

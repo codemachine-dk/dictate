@@ -2,14 +2,14 @@ import { App, PluginSettingTab, Setting } from "obsidian";
 import MyPlugin from "./main";
 
 export interface Vote4DickTaidPluginSettings {
-	mySetting: string;
+	recordingFolder: string;
 }
 
 export const DEFAULT_SETTINGS: Vote4DickTaidPluginSettings = {
-	mySetting: 'default'
+	recordingFolder: 'Vote 4 Dick Taid Recordings'
 }
 
-export class SampleSettingTab extends PluginSettingTab {
+export class Vote4DickTaidSettingTab extends PluginSettingTab {
 	plugin: MyPlugin;
 
 	constructor(app: App, plugin: MyPlugin) {
@@ -23,13 +23,13 @@ export class SampleSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		new Setting(containerEl)
-			.setName('Settings #1')
-			.setDesc('It\'s a secret')
+			.setName('Recording folder')
+			.setDesc('Folder where audio recordings are saved.')
 			.addText(text => text
-				.setPlaceholder('Enter your secret')
-				.setValue(this.plugin.settings.mySetting)
+				.setPlaceholder('Recordings')
+				.setValue(this.plugin.settings.recordingFolder)
 				.onChange(async (value) => {
-					this.plugin.settings.mySetting = value;
+					this.plugin.settings.recordingFolder = value;
 					await this.plugin.saveSettings();
 				}));
 	}
