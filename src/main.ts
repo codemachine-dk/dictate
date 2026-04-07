@@ -53,6 +53,12 @@ export default class Vote4DickTaidPlugin extends Plugin {
 				if (!AUDIO_EXTENSIONS.has(file.extension)) return;
 				if (this.ownRecordings.delete(file.path)) return;
 				if (!this.settings.modelPath) return;
+
+				if (this.settings.autoTranscribeNewAudioFiles) {
+					void this.transcribeFile(file);
+					return;
+				}
+
 				if (!this.settings.promptOnNewAudioFile) return;
 
 				new TranscribeConfirmModal(this.app, file.name, () => {

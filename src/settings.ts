@@ -7,6 +7,7 @@ export interface Vote4DickTaidPluginSettings {
 	modelPath: string;
 	language: string;
 	promptOnNewAudioFile: boolean;
+	autoTranscribeNewAudioFiles: boolean;
 }
 
 export const DEFAULT_SETTINGS: Vote4DickTaidPluginSettings = {
@@ -15,6 +16,7 @@ export const DEFAULT_SETTINGS: Vote4DickTaidPluginSettings = {
 	modelPath: '',
 	language: 'en',
 	promptOnNewAudioFile: true,
+	autoTranscribeNewAudioFiles: false,
 }
 
 export class Vote4DickTaidSettingTab extends PluginSettingTab {
@@ -81,6 +83,16 @@ export class Vote4DickTaidSettingTab extends PluginSettingTab {
 				.setValue(this.plugin.settings.promptOnNewAudioFile)
 				.onChange(async (value) => {
 					this.plugin.settings.promptOnNewAudioFile = value;
+					await this.plugin.saveSettings();
+				}));
+
+		new Setting(containerEl)
+			.setName('Auto-transcribe new audio files')
+			.setDesc('Automatically transcribe audio files when added to the vault.')
+			.addToggle(toggle => toggle
+				.setValue(this.plugin.settings.autoTranscribeNewAudioFiles)
+				.onChange(async (value) => {
+					this.plugin.settings.autoTranscribeNewAudioFiles = value;
 					await this.plugin.saveSettings();
 				}));
 	}
