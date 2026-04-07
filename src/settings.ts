@@ -6,6 +6,7 @@ export interface Vote4DickTaidPluginSettings {
 	whisperCliPath: string;
 	modelPath: string;
 	language: string;
+	promptOnNewAudioFile: boolean;
 }
 
 export const DEFAULT_SETTINGS: Vote4DickTaidPluginSettings = {
@@ -13,6 +14,7 @@ export const DEFAULT_SETTINGS: Vote4DickTaidPluginSettings = {
 	whisperCliPath: 'whisper-cli',
 	modelPath: '',
 	language: 'en',
+	promptOnNewAudioFile: true,
 }
 
 export class Vote4DickTaidSettingTab extends PluginSettingTab {
@@ -69,6 +71,16 @@ export class Vote4DickTaidSettingTab extends PluginSettingTab {
 				.setValue(this.plugin.settings.language)
 				.onChange(async (value) => {
 					this.plugin.settings.language = value;
+					await this.plugin.saveSettings();
+				}));
+
+		new Setting(containerEl)
+			.setName('Prompt to transcribe new audio files')
+			.setDesc('Show a prompt when an audio file is added to the vault.')
+			.addToggle(toggle => toggle
+				.setValue(this.plugin.settings.promptOnNewAudioFile)
+				.onChange(async (value) => {
+					this.plugin.settings.promptOnNewAudioFile = value;
 					await this.plugin.saveSettings();
 				}));
 	}
