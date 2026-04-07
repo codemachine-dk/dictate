@@ -1,11 +1,11 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
+	"id": "vote-4-dick-taid",
+	"name": "Vote 4 Dick Taid",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"description": "Dictate and transcribe audio files",
+	"author": "Nicolai Bach Woller",
+	"authorUrl": "https://codemachine.dk",
+	"fundingUrl": "https://codemachine.dk/donate",
 	"isDesktopOnly": false
 }
