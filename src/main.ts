@@ -1,6 +1,7 @@
 import { Notice, Plugin, setIcon, TFile } from 'obsidian';
 import { DEFAULT_SETTINGS, Vote4DickTaidPluginSettings, Vote4DickTaidSettingTab } from "./settings";
 import { AudioRecorder } from "./recorder";
+import { transcribe } from "./transcriber";
 
 export default class Vote4DickTaidPlugin extends Plugin {
 	settings!: Vote4DickTaidPluginSettings;
@@ -66,10 +67,26 @@ export default class Vote4DickTaidPlugin extends Plugin {
 			return;
 		}
 		try {
-			await this.recorder.stop(this.app.vault, this.activeNote, this.settings.recordingFolder);
-			new Notice('Recording saved');
+			const { diskPath } = await this.recorder.stop(this.app.vault, this.activeNote, this.settings.recordingFolder);
+			new Notice('Recording saved, transcribing…');
+
+			if (this.settings.modelPath) {
+				const text = await transcribe({
+					whisperCliPath: this.settings.whisperCliPath,
+					modelPath: this.settings.modelPath,
+					language: this.settings.language,
+					audioFilePath: diskPath,
+				});
+
+				if (text && this.activeNote) {
+					await this.app.vault.append(this.activeNote, '\n' + text + '\n');
+				}
+				new Notice('Transcription complete');
+			} else {
+				new Notice('Skipped transcription — no model path configured');
+			}
 		} catch (err) {
-			new Notice('Failed to save recording: ' + (err as Error).message);
+			new Notice('Failed: ' + (err as Error).message);
 		} finally {
 			this.activeNote = null;
 			this.updateRibbonIcon();

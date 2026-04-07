@@ -3,10 +3,16 @@ import MyPlugin from "./main";
 
 export interface Vote4DickTaidPluginSettings {
 	recordingFolder: string;
+	whisperCliPath: string;
+	modelPath: string;
+	language: string;
 }
 
 export const DEFAULT_SETTINGS: Vote4DickTaidPluginSettings = {
-	recordingFolder: 'Vote 4 Dick Taid Recordings'
+	recordingFolder: 'Vote 4 Dick Taid Recordings',
+	whisperCliPath: 'whisper-cli',
+	modelPath: '',
+	language: 'en',
 }
 
 export class Vote4DickTaidSettingTab extends PluginSettingTab {
@@ -30,6 +36,39 @@ export class Vote4DickTaidSettingTab extends PluginSettingTab {
 				.setValue(this.plugin.settings.recordingFolder)
 				.onChange(async (value) => {
 					this.plugin.settings.recordingFolder = value;
+					await this.plugin.saveSettings();
+				}));
+
+		new Setting(containerEl)
+			.setName('Whisper CLI path')
+			.setDesc('Full path to the whisper CLI program.')
+			.addText(text => text
+				.setPlaceholder('Whisper-cli')
+				.setValue(this.plugin.settings.whisperCliPath)
+				.onChange(async (value) => {
+					this.plugin.settings.whisperCliPath = value;
+					await this.plugin.saveSettings();
+				}));
+
+		new Setting(containerEl)
+			.setName('Model path')
+			.setDesc('Path to the whisper ggml model file.')
+			.addText(text => text
+				.setPlaceholder('/path/to/ggml-base.en.bin')
+				.setValue(this.plugin.settings.modelPath)
+				.onChange(async (value) => {
+					this.plugin.settings.modelPath = value;
+					await this.plugin.saveSettings();
+				}));
+
+		new Setting(containerEl)
+			.setName('Language')
+			.setDesc('Language code for transcription, such as en, da, de, or auto.')
+			.addText(text => text
+				.setPlaceholder('Auto')
+				.setValue(this.plugin.settings.language)
+				.onChange(async (value) => {
+					this.plugin.settings.language = value;
 					await this.plugin.saveSettings();
 				}));
 	}
