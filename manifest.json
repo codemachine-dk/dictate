@@ -1,6 +1,6 @@
 {
-	"id": "vote-4-dick-taid",
-	"name": "Vote 4 Dick Taid",
+	"id": "dictate",
+	"name": "Dictate",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
 	"description": "Dictate and transcribe audio files",

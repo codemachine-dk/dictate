@@ -1,7 +1,7 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
 import MyPlugin from "./main";
 
-export interface Vote4DickTaidPluginSettings {
+export interface DictatePluginSettings {
 	recordingFolder: string;
 	whisperCliPath: string;
 	modelPath: string;
@@ -10,8 +10,8 @@ export interface Vote4DickTaidPluginSettings {
 	autoTranscribeNewAudioFiles: boolean;
 }
 
-export const DEFAULT_SETTINGS: Vote4DickTaidPluginSettings = {
-	recordingFolder: 'Vote 4 Dick Taid Recordings',
+export const DEFAULT_SETTINGS: DictatePluginSettings = {
+	recordingFolder: 'Dictate Recordings',
 	whisperCliPath: 'whisper-cli',
 	modelPath: '',
 	language: 'en',
@@ -19,7 +19,7 @@ export const DEFAULT_SETTINGS: Vote4DickTaidPluginSettings = {
 	autoTranscribeNewAudioFiles: false,
 }
 
-export class Vote4DickTaidSettingTab extends PluginSettingTab {
+export class DictateSettingTab extends PluginSettingTab {
 	plugin: MyPlugin;
 
 	constructor(app: App, plugin: MyPlugin) {

@@ -1,12 +1,12 @@
 import { Notice, Plugin, setIcon, TFile } from 'obsidian';
-import { DEFAULT_SETTINGS, Vote4DickTaidPluginSettings, Vote4DickTaidSettingTab } from "./settings";
+import { DEFAULT_SETTINGS, DictatePluginSettings, DictateSettingTab } from "./settings";
 import { AudioRecorder } from "./recorder";
 import { transcribe } from "./transcriber";
 import { AudioFileSuggestModal, AUDIO_EXTENSIONS } from "./audio-file-modal";
 import { TranscribeConfirmModal } from "./transcribe-confirm-modal";
 
-export default class Vote4DickTaidPlugin extends Plugin {
-	settings!: Vote4DickTaidPluginSettings;
+export default class DictatePlugin extends Plugin {
+	settings!: DictatePluginSettings;
 	private recorder = new AudioRecorder();
 	private activeNote: TFile | null = null;
 	private ribbonIconEl: HTMLElement | null = null;
@@ -45,7 +45,7 @@ export default class Vote4DickTaidPlugin extends Plugin {
 			},
 		});
 
-		this.addSettingTab(new Vote4DickTaidSettingTab(this.app, this));
+		this.addSettingTab(new DictateSettingTab(this.app, this));
 
 		this.registerEvent(
 			this.app.vault.on('create', (file) => {
@@ -185,7 +185,7 @@ export default class Vote4DickTaidPlugin extends Plugin {
 	}
 
 	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData() as Partial<Vote4DickTaidPluginSettings>);
+		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData() as Partial<DictatePluginSettings>);
 	}
 
 	async saveSettings() {
