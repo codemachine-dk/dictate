@@ -1,7 +1,7 @@
 {
 	"id": "dictate",
 	"name": "Dictate",
-	"version": "1.0.0",
+	"version": "0.1.0",
 	"minAppVersion": "0.15.0",
 	"description": "Dictate and transcribe audio files",
 	"author": "Nicolai Bach Woller",
